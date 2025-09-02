@@ -1,0 +1,8 @@
+pandas
+numpy
+requests
+netCDF4
+sqlalchemy
+pyarrow
+windows-curses; platform_system=="Windows"  # optional, for curses menu on Windows
+
