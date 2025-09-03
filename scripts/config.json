@@ -1,0 +1,22 @@
+{
+  "essential": [
+    "PRES",
+    "TEMP",
+    "PSAL",
+    "LATITUDE",
+    "LONGITUDE",
+    "JULD"
+  ],
+  "research": [
+    "DOXY",
+    "CHLA",
+    "BBP700",
+    "NITRATE",
+    "PH_IN_SITU_TOTAL",
+    "DOWNWELLING_PAR",
+    "TURBIDITY",
+    "CDOM",
+    "O2SAT"
+  ]
+}
+
