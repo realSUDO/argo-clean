@@ -22,42 +22,43 @@ def load_and_analyze(db_path: Path):
         print(f"\n{table} columns: {info['name'].tolist()}")
 
     # Load and analyze data
-    df = pd.read_sql_query("SELECT * FROM profiles", conn)
+    df = pd.read_sql_query(f"SELECT * FROM {tables['name'][0]}", conn)
     conn.close()
 
-    print(f"\n🌊 ARGO Profiles Summary")
+    print(f"\n🌊 {tables['name'][0]} Summary")
     print("=" * 40)
     print(f"Total records: {len(df):,}")
 
-    # Clean float_id
-    if df["float_id"].dtype == "object":
-        df["float_id"] = (
-            df["float_id"]
-            .astype(str)
-            .str.replace(r"[\[\]b\'\s-]", "", regex=True)
-        )
+    # Clean float_id if it exists
+    if "float_id" in df.columns and df["float_id"].dtype == "object":
+        df["float_id"] = df["float_id"].astype(str).str.replace(r"[\[\]b\'\s-]", "", regex=True)
 
-    print(f"\n📈 Data Ranges:")
-    print(f"Depth: {df['depth'].min():.1f} - {df['depth'].max():.1f} m")
-    print(f"Temperature: {df['temp'].min():.2f} - {df['temp'].max():.2f} °C")
-    print(f"Salinity: {df['sal'].min():.2f} - {df['sal'].max():.2f}")
-    print(f"Latitude: {df['lat'].min():.2f}° - {df['lat'].max():.2f}°")
-    print(f"Longitude: {df['lon'].min():.2f}° - {df['lon'].max():.2f}°")
-    print(f"Unique floats: {df['float_id'].nunique()}")
+    # Dynamic range printing
+    for col, name in [("depth", "Depth (m)"), ("temp", "Temperature (°C)"), ("sal", "Salinity"), 
+                      ("lat", "Latitude"), ("lon", "Longitude")]:
+        if col in df.columns:
+            print(f"{name}: {df[col].min():.2f} - {df[col].max():.2f}")
 
+    if "float_id" in df.columns:
+        print(f"Unique floats: {df['float_id'].nunique()}")
+
+    # Data completeness dynamically
     print(f"\n📊 Data Completeness:")
     for col in df.columns:
         non_null = df[col].notna().sum()
         pct = (non_null / len(df)) * 100
-        print(f"{col:15}: {pct:5.1f}% ({non_null}/{len(df)})")
+        print(f"{col:20}: {pct:5.1f}% ({non_null}/{len(df)})")
 
+    # Show sample data dynamically
+    sample_cols = [c for c in ["depth", "temp", "sal", "lat", "lon", "float_id"] if c in df.columns]
     print(f"\n🔬 Sample Data:")
-    sample = df.head(3)[["depth", "temp", "sal", "lat", "lon", "float_id"]]
-    print(sample.to_string(index=False))
+    print(df[sample_cols].head(3).to_string(index=False))
 
-    print(f"\n🏊 Float Distribution:")
-    for float_id, count in df["float_id"].value_counts().head().items():
-        print(f"Float {float_id}: {count} profiles")
+    # Float distribution if float_id exists
+    if "float_id" in df.columns:
+        print(f"\n🏊 Float Distribution:")
+        for float_id, count in df["float_id"].value_counts().head().items():
+            print(f"Float {float_id}: {count} profiles")
 
 
 def main():
@@ -67,8 +68,8 @@ def main():
     parser.add_argument(
         "--db",
         type=Path,
-        default=Path(__file__).resolve().parent.parent / "SQL-DB" / "argo_profiles.db",
-        help="Path to the SQLite database (default: repo_root/SQL-DB/argo_profiles.db)",
+        default=Path(__file__).resolve().parent / "argo_profile.db",
+        help="Path to the SQLite database (default: SQL-DB/argo_profile.db)",
     )
     args = parser.parse_args()
 
@@ -77,3 +78,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
