@@ -8,7 +8,7 @@ from .parquet_config import (
     ESSENTIAL_KEYS, RESEARCH_KEYS, OUTPUT_DIR
 )
 from .parquet_utils import (
-    log_message, get_var, normalize_value, align_shapes, pad_array
+    log_message, get_var, normalize_value, align_shapes, pad_array, convert_juld_to_datetime
 )
 
 def process_nc_file(nc_file_data):
@@ -52,7 +52,10 @@ def process_nc_file(nc_file_data):
         psal = core_data.get("psal", np.array([np.nan]))
         lat = core_data.get("latitude", np.array([np.nan]))
         lon = core_data.get("longitude", np.array([np.nan]))
-        time = core_data.get("juld", np.array([np.nan]))
+        
+        # Convert JULD to proper datetime instead of using raw values
+        juld_var = ds.variables.get('JULD')
+        time = convert_juld_to_datetime(juld_var)
 
         def safe_slice(arr, i):
             """Safely extract column i, padding with NaN if needed"""

@@ -1,0 +1,16 @@
+Hierarchical Vector Database Retrieval Guide
+===========================================
+
+Metadata Fields Available:
+- float_id: Unique identifier for the float/profile
+- hierarchy_level: 'float_aggregate' or 'profile_detail'
+- retrieval_priority: 100 (high) for aggregate, 50 (low) for detail
+
+Retrieval Strategies:
+1. For general queries: Filter by hierarchy_level='float_aggregate'
+2. For specific profile queries: Filter by hierarchy_level='profile_detail'
+3. Mixed retrieval: Use retrieval_priority for weighted results
+
+Total entries: 19151
+Aggregate entries: 128
+Detail entries: 19023

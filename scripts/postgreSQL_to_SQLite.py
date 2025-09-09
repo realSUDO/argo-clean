@@ -6,8 +6,8 @@ import os
 # CONFIG
 # -------------------------------
 PG_CONN = "postgresql://multiply:unlocked@localhost:5432/ocean"
-SQLITE_DB = os.path.join(os.path.dirname(__file__), "../SQL-DB/argo_profile.db")
-TABLE_NAME = "argo_measurements"
+SQLITE_DB = os.path.join(os.path.dirname(__file__), "../SQL-DB/argo_meta.db")
+TABLE_NAME = "argo_meta"
 CHUNK_SIZE = 500_000  # fetch in chunks to avoid memory crash
 
 # -------------------------------
