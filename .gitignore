@@ -1,0 +1,27 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Project specific ignores
+.anaconda/
+SQL-DB/argo_meta.db
+SQL-DB/argo_profile.db
+SQL-DB/argo_profile.db.bak
+SQL-DB/argo_profile.db.bak.2
+SQL-DB/argo_profile3.bak
+argo_parquet.bak/
+argo_parquet/
+artificial-intelligence-ai-icon.png
+code.txt
+logs/
+logs_20250903_200748.txt
+step0/ar_index_global_prof.txt
+terminal.txt
+vector_db/argo_metadata.csv
+vector_db/argo_summary_index.faiss
+vector_db/build_summary.txt
+vector_db/chunks.txt
+vector_db/id_mapping.txt
+vector_db/vector_db_files.zip

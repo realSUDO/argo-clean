@@ -10,7 +10,7 @@ DB_CONFIG = {
     "user": "multiply",
     "password": "unlocked"
 }
-TABLE_NAME = "argo_measurements"
+TABLE_NAME = "argo_meta"
 
 # -------------------------------
 # CONNECT
